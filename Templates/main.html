@@ -1,0 +1,28 @@
+{% extends 'post.html' %}
+
+{%block title %}
+{%endblock title %}
+
+
+{%block content %}
+    {% for obj in qs %}
+        <div class="ui segment">
+        <h1>{{obj.tittle}}</h1>
+        <p>{{obj.body}}</p>
+        <form method="post" action="{% url 'like_post' %}" class="ui form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{obj.id}}">
+            {% if user not in obj.liked.all %}
+            <button class="ui button positive" type="submit">Like</button>
+            {% else %}
+            <button class="ui button negative" type="submit">unlike</button>
+            {% endif %}
+            <strong>{{ obj.liked.all.count}}likes</strong>
+        </form>
+        </div>
+
+    {% endfor %}
+ {% endblock content %}
+
+
+
